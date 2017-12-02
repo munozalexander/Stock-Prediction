@@ -29,8 +29,8 @@ def convert(input):
         return input
 
 # helpful function to figure out what to name individual JSON files        
-def getJsonFileName(date, json_file_path):
-    json_file_name = ".".join([date,'json'])
+def getJsonFileName(date, page, json_file_path):
+    json_file_name = ".".join([date,str(page),'json'])
     json_file_name = "".join([json_file_path,json_file_name])
     return json_file_name
 
@@ -50,34 +50,35 @@ def getMultiples(items, key):
 # get the articles from the NYTimes Article API    
 def getArticles(date, query, api_key, json_file_path):
     # LOOP THROUGH THE 101 PAGES NYTIMES ALLOWS FOR THAT DATE
-    for n in range(5): # 5 tries
-        try:
-            request_string = "http://api.nytimes.com/svc/search/v2/articlesearch.json?begin_date=" + date + "&end_date=" + date + "&fl=" + "finance" + "&api-key=" + api_key
-            response = urllib2.urlopen(request_string)
-            content = response.read()
-            if content:
-                articles = convert(json.loads(content))
-                # if there are articles here
-                if len(articles["response"]["docs"]) >= 1:
-                    json_file_name = getJsonFileName(date, json_file_path)
-                    json_file = open(json_file_name, 'w')
-                    json_file.write(content)
-                    json_file.close()
-                # if no more articles, go to next date
-                else:
+    for page in range(101):
+        for n in range(5): # 5 tries
+            try:
+                request_string = "http://api.nytimes.com/svc/search/v2/articlesearch.json?begin_date=" + date + "&end_date=" + date + "&page=" + str(page) + "&api-key=" + api_key
+                response = urllib2.urlopen(request_string)
+                content = response.read()
+                if content:
+                    articles = convert(json.loads(content))
+                    # if there are articles here
+                    if len(articles["response"]["docs"]) >= 1:
+                        json_file_name = getJsonFileName(date, page, json_file_path)
+                        json_file = open(json_file_name, 'w')
+                        json_file.write(content)
+                        json_file.close()
+                    # if no more articles, go to next date
+                    else:
+                        return
+                time.sleep(3) # wait so we don't overwhelm the API
+            except HTTPError as e:
+                logging.error("HTTPError on page %s on %s (err no. %s: %s) Here's the URL of the call: %s", page, date, e.code, e.reason, request_string)
+                if e.code == 403:
+                    print "Script hit a snag and got an HTTPError 403. Check your log file for more info."
                     return
-            time.sleep(3) # wait so we don't overwhelm the API
-        except HTTPError as e:
-            logging.error("HTTPError on page %s on %s (err no. %s: %s) Here's the URL of the call: %s", page, date, e.code, e.reason, request_string)
-            if e.code == 403:
-                print "Script hit a snag and got an HTTPError 403. Check your log file for more info."
-                return
-            if e.code == 429:
-                print "Waiting. You've probably reached an API limit."
-                time.sleep(30) # wait 30 seconds and try again
-        except: 
-            logging.error("Error on %s page %s: %s", date, file_number, sys.exc_info()[0])
-            continue
+                if e.code == 429:
+                    print "Waiting. You've probably reached an API limit."
+                    time.sleep(30) # wait 30 seconds and try again
+            except: 
+                logging.error("Error on %s page %s: %s", date, file_number, sys.exc_info()[0])
+                continue
 
 # parse the JSON files you stored into a tab-delimited file
 def parseArticles(date, tsv_file_name, json_file_path):
