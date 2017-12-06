@@ -174,7 +174,7 @@ class StockModel():
         plt.savefig('figures/'+filename)
         print "Future Curves successfully plotted and saved."
 
-    def decideBuySell(self, startpoint, days_topredict, model, return_threshold):
+    def __decideBuySell(self, startpoint, days_topredict, model, return_threshold):
         '''
         predict future prices and return a market decision
         - returns True: "buy long"
@@ -195,7 +195,7 @@ class StockModel():
         ''' walk data making buy/sell decisions '''
         buy_dates, sell_dates = [], []
         for t in range(len(self.y_test)):
-            decision = self.decideBuySell(t, days_topredict, model, return_threshold)
+            decision = self.__decideBuySell(t, days_topredict, model, return_threshold)
             if decision is True:
                 buy_dates.append(t)
             elif decision is False:
@@ -221,8 +221,8 @@ class StockModel():
         plt.savefig('figures/'+filename)
         print "Buy-sell decision points successfully plotted and saved."
 
-    def plotPortfolioValue(self, model, initial_cash=10000, stocks_per_trade=5,\
-                           return_threshold=0.5, days_topredict=30, filename='portfolio0.png'):
+    def plotPortfolioReturn(self, model, initial_cash=10000, stocks_per_trade=5,\
+                            return_threshold=0.5, days_topredict=30, filename='portfolio0.png'):
         ''' walk the test set buying and selling, plot portfolio value over time '''
         print "\n\n...plotting portfolio return over time"
         buy_dates, sell_dates = self.__walkBuySell(days_topredict, model, return_threshold)
