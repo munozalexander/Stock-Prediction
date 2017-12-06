@@ -105,11 +105,11 @@ Our model is contained in the file `lstm.py` in the class `StockModel()`. Our mo
   - filename : output file name (default: 'portfolio0.png')
   
 Our StockModel() class additionally has attributes
-* StockModel().ticker : string for ticker symbol of model from initialization, i.e. 'AAPL'
-* StockModel().X_train : training set features following a call from `StockModel().loadStock()`
-* StockModel().X_valid : validation set features following a call from `StockModel().loadStock(validation_split=True)`
-* StockModel().X_test : test set features following a call from `StockModel().loadStock()`
-* StockModel().y_train : training set next-day prices following a call from `StockModel().loadStock()`
-* StockModel().y_valid : validation set next-day prices following a call from `StockModel().loadStock(validation_split=True)`
-* StockModel().y_test : test set next-day prices following a call from `StockModel().loadStock()`
+* `StockModel().ticker` : string for ticker symbol of model from initialization, i.e. 'AAPL'
+* `StockModel().X_train` : training set features following a call from `StockModel().loadStock()`
+* `StockModel().X_valid` : validation set features following a call from `StockModel().loadStock(validation_split=True)`
+* `StockModel().X_test` : test set features following a call from `StockModel().loadStock()`
+* `StockModel().y_train` : training set next-day prices following a call from `StockModel().loadStock()`
+* `StockModel().y_valid` : validation set next-day prices following a call from `StockModel().loadStock(validation_split=True)`
+* `StockModel().y_test` : test set next-day prices following a call from `StockModel().loadStock()`
   
