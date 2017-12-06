@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 import time
 from helpers import *
 
-class Stock_Model():
+class StockModel():
     def __init__(self, \
                  ticker, \
                  stock_file = 'data/stock/prices-split-adjusted.csv', \
@@ -205,11 +205,6 @@ class Stock_Model():
         print "Data walk complete."
         return buy_dates, sell_dates
 
-    def plotPortfolioValue(self, model, return_threshold=0.5, days_topredict=30, filename='portfolio0.png'):
-        ''' walk the test set buying and selling, plot portfolio value over time '''
-        buy_dates, sell_dates = self.__walkBuySell(days_topredict, model, return_threshold)
-        return
-
     def plotBuySellPoints(self, model, return_threshold=0.5, days_topredict=30, filename='buysell0.png'):
         ''' plot points to buy or sell stock '''
         print "\n\n...plotting buy-sell point graph"
@@ -225,3 +220,29 @@ class Stock_Model():
         a.legend(recs,['buy', 'sell'], loc=2, prop={'size':14})
         plt.savefig('figures/'+filename)
         print "Buy-sell decision points successfully plotted and saved."
+
+    def plotPortfolioValue(self, model, initial_cash=10000, stocks_per_trade=5,\
+                           return_threshold=0.5, days_topredict=30, filename='portfolio0.png'):
+        ''' walk the test set buying and selling, plot portfolio value over time '''
+        print "\n\n...plotting portfolio return over time"
+        buy_dates, sell_dates = self.__walkBuySell(days_topredict, model, return_threshold)
+        cash = initial_cash
+        portfolio =  0
+        returns = [0]
+        for date in range(max(buy_dates+sell_dates)+1):
+            if date in buy_dates: #buy
+                portfolio += stocks_per_trade
+                cash = cash - stocks_per_trade*inv_price_transform(self.y_test[date], self.scaler)
+            elif date in sell_dates: #sell
+                portfolio -= stocks_per_trade
+                cash = cash + stocks_per_trade*inv_price_transform(self.y_test[date], self.scaler)
+            curr_value = cash + portfolio*inv_price_transform(self.y_test[date], self.scaler)
+            curr_return = 100*(curr_value-initial_cash)/initial_cash
+            returns.append(curr_return)
+        f,a = simple_ax(figsize=(10,6))
+        a.plot(returns, linewidth=2)
+        a.set_xlabel('Day')
+        a.set_ylabel('Portfolio Percent Return')
+        a.set_title('Portfolio Value Over Time Trading %s on Test Set' % self.ticker)
+        plt.savefig('figures/'+filename)
+        print "Portfolio return graph successfully plotted and saved."
