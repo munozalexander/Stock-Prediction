@@ -23,7 +23,7 @@ rmse = aapl_model.validate(model)
 ```
 
 
-Our model is contained in the file `lstm.py` in the class `StockModel()`. Our model class has methods:
+## StockModel() Methods
 * `__init__(self, ticker, stock_file = 'data/stock/prices-split-adjusted.csv', news_directory = 'data/news/', econ_file = 'data/market/economic_indicators.csv', reddit_file = 'data/market/reddit_sentiments.csv')`
   
   Parameters
@@ -104,7 +104,7 @@ Our model is contained in the file `lstm.py` in the class `StockModel()`. Our mo
   - days_topredict : int for number of days to predict forward when calculated projected return (default: 30)
   - filename : output file name (default: 'portfolio0.png')
   
-Our StockModel() class additionally has attributes:
+## StockModel() Attributes
 * `StockModel().ticker` : string for ticker symbol of model from initialization, i.e. 'AAPL'
 * `StockModel().X_train` : training set features following a call from `StockModel().loadStock()`
 * `StockModel().X_valid` : validation set features following a call from `StockModel().loadStock(validation_split=True)`
