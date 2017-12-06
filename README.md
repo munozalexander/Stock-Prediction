@@ -8,7 +8,20 @@ We implemented an LSTM RNN to predict an individual company's future stock price
 
 We pass the features to an LSTM RNN to train future stock price prediction. Following training, our model can predict future stock prices with high accuracy and attains high returns on investment while investing as an agent.
 
-We have two demos of prediction on the Apple stock (AAPL) in the `demos/` directory. The Jupyter notebook is a standalone working demo of the model on AAPL, with outputs preprinted in-line for easy viewing. The same outputs can also be produced by running `python demo.py`.
+We have two demos of prediction on the Apple stock (AAPL) in the `demos/` directory. The Jupyter notebook is a standalone working demo of the model on AAPL, with outputs preprinted in-line for easy viewing. The same outputs can also be produced by running `python PredictionDemo_AAPL.py`.
+
+To quickly get a functional implementation of our model, follow `demos/PredictionDemo_AAPL.py` by running:
+```python
+from lstm import StockModel
+
+aapl_model = StockModel('AAPL')
+aapl_model.loadStock()
+model, history = aapl_model.train()
+rmse = aapl_model.validate(model)
+
+# perform downstream analyses and prediction on test set
+```
+
 
 Our model is contained in the file `lstm.py` in the class `StockModel()`. Our model class has methods:
 * `__init__(self, ticker, stock_file = 'data/stock/prices-split-adjusted.csv', news_directory = 'data/news/', econ_file = 'data/market/economic_indicators.csv', reddit_file = 'data/market/reddit_sentiments.csv')`
