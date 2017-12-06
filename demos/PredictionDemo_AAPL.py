@@ -5,7 +5,7 @@ os.chdir('..')
 
 aapl_model = StockModel('AAPL')
 aapl_model.loadStock()
-model, history = aapl_model.train(epochs=10)
+model, history = aapl_model.train()
 rmse = aapl_model.validate(model)
 aapl_model.plotOneDayCurve(model)
 aapl_model.plotFutureCurves(model)
