@@ -8,9 +8,10 @@ We implemented an LSTM RNN to predict an individual company's future stock price
 
 We pass the features to an LSTM RNN to train future stock price prediction. Following training, our model can predict future stock prices with high accuracy and attains high returns on investment while investing as an agent.
 
-We have two demos of prediction on the Apple stock (AAPL) in the `demos/` directory. The Jupyter notebook is a standalone working demo of the model on AAPL, with outputs preprinted in-line for easy viewing. The same outputs can also be produced by running `python PredictionDemo_AAPL.py`.
+Our model `StockModel()` is a class in `lstm.py`. We have two demos of the model's predictions on the Apple stock (AAPL) in the `demos/` directory. The Jupyter notebook is a standalone working demo of the model on AAPL, with outputs preprinted in-line for easy viewing. The same outputs can also be produced by running `python PredictionDemo_AAPL.py`.
 
-To quickly get a functional implementation of our model, follow `demos/PredictionDemo_AAPL.py` by running:
+## Setup and Run
+To quickly get a functional implementation of our model, follow the `demos/PredictionDemo_AAPL.py` skeleton by running:
 ```python
 from lstm import StockModel
 
@@ -19,11 +20,11 @@ aapl_model.loadStock()
 model, history = aapl_model.train()
 rmse = aapl_model.validate(model)
 
-# perform downstream analyses and prediction on test set
+# perform downstream analyses and prediction on test set using keras model
 ```
 
 
-Our model is contained in the file `lstm.py` in the class `StockModel()`. Our model class has methods:
+## StockModel() Methods
 * `__init__(self, ticker, stock_file = 'data/stock/prices-split-adjusted.csv', news_directory = 'data/news/', econ_file = 'data/market/economic_indicators.csv', reddit_file = 'data/market/reddit_sentiments.csv')`
   
   Parameters
@@ -104,12 +105,12 @@ Our model is contained in the file `lstm.py` in the class `StockModel()`. Our mo
   - days_topredict : int for number of days to predict forward when calculated projected return (default: 30)
   - filename : output file name (default: 'portfolio0.png')
   
-Our StockModel() class additionally has attributes
-* StockModel().ticker : string for ticker symbol of model from initialization, i.e. 'AAPL'
-* StockModel().X_train : training set features following a call from `StockModel().loadStock()`
-* StockModel().X_valid : validation set features following a call from `StockModel().loadStock(validation_split=True)`
-* StockModel().X_test : test set features following a call from `StockModel().loadStock()`
-* StockModel().y_train : training set next-day prices following a call from `StockModel().loadStock()`
-* StockModel().y_valid : validation set next-day prices following a call from `StockModel().loadStock(validation_split=True)`
-* StockModel().y_test : test set next-day prices following a call from `StockModel().loadStock()`
+## StockModel() Attributes
+* `StockModel().ticker` : string for ticker symbol of model from initialization, i.e. 'AAPL'
+* `StockModel().X_train` : training set features following a call from `StockModel().loadStock()`
+* `StockModel().X_valid` : validation set features following a call from `StockModel().loadStock(validation_split=True)`
+* `StockModel().X_test` : test set features following a call from `StockModel().loadStock()`
+* `StockModel().y_train` : training set next-day prices following a call from `StockModel().loadStock()`
+* `StockModel().y_valid` : validation set next-day prices following a call from `StockModel().loadStock(validation_split=True)`
+* `StockModel().y_test` : test set next-day prices following a call from `StockModel().loadStock()`
   
