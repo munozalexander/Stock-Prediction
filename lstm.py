@@ -154,7 +154,7 @@ class StockModel():
         a.set_xlabel('Day')
         a.set_title('%s Test Set Predictions'%self.ticker)
         plt.legend()
-        plt.savefig('figures/'+self.ticker+'_'+filename)
+        plt.savefig('figures/lstm/'+self.ticker+'_'+filename)
         print "One-day lookahead curve successfully plotted and saved."
 
     def plotFutureCurves(self, model, days_topredict=30, filename='futurecurves0.png'):
@@ -171,7 +171,7 @@ class StockModel():
         a.set_xlabel('Day')
         a.set_ylabel('Price')
         a.set_title('%s Test Set %i Day Lookahead' % (self.ticker, days_topredict))
-        plt.savefig('figures/'+self.ticker+'_'+filename)
+        plt.savefig('figures/lstm/'+self.ticker+'_'+filename)
         print "Future Curves successfully plotted and saved."
 
     def _decideBuySell(self, startpoint, days_topredict, model, return_threshold):
@@ -205,7 +205,7 @@ class StockModel():
         print "Data walk complete."
         return buy_dates, sell_dates
 
-    def plotBuySellPoints(self, model, return_threshold=0.1, days_topredict=30, filename='buysell0.png'):
+    def plotBuySellPoints(self, model, return_threshold=0.01, days_topredict=30, filename='buysell0.png'):
         ''' plot points to buy or sell stock '''
         print "\n\n...plotting buy-sell point graph"
         buy_dates, sell_dates = self.__walkBuySell(days_topredict, model, return_threshold)
@@ -218,11 +218,11 @@ class StockModel():
         a.set_title('Buy/Sell Decisions for %s Test Set' % self.ticker)
         recs = [mpatches.Rectangle((0,0),1,1,fc='g'), mpatches.Rectangle((0,0),1,1,fc='r')]
         a.legend(recs,['buy', 'sell'], loc=2, prop={'size':14})
-        plt.savefig('figures/'+self.ticker+'_'+filename)
+        plt.savefig('figures/lstm/'+self.ticker+'_'+filename)
         print "Buy-sell decision points successfully plotted and saved."
 
     def plotPortfolioReturn(self, model, initial_cash=10000, per_trade_value=500,\
-                            return_threshold=0.1, days_topredict=30, filename='portfolio0.png'):
+                            return_threshold=0.01, days_topredict=30, filename='portfolio0.png'):
         ''' walk the test set buying and selling, plot portfolio value over time '''
         print "\n\n...plotting portfolio return over time"
         buy_dates, sell_dates = self.__walkBuySell(days_topredict, model, return_threshold)
@@ -245,5 +245,5 @@ class StockModel():
         a.set_xlabel('Day')
         a.set_ylabel('Portfolio Percent Return')
         a.set_title('Portfolio Value Over Time Trading %s on Test Set' % self.ticker)
-        plt.savefig('figures/'+self.ticker+'_'+filename)
+        plt.savefig('figures/lstm/'+self.ticker+'_'+filename)
         print "Portfolio return graph successfully plotted and saved."
