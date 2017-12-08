@@ -103,14 +103,14 @@ rmse = aapl_model.validate(model)
   - days_topredict : int for number of days to predict forward when calculated projected return (default: 30)
   - filename : output file name (default: 'buysell0.png')
   
-* ` plotPortfolioReturn(self, model, initial_cash=10000, stocks_per_trade=5, return_threshold=0.5, days_topredict=30, filename='portfolio0.png')`
+* ` plotPortfolioReturn(self, model, initial_cash=10000, per_trade_value=500, return_threshold=0.5, days_topredict=30, filename='portfolio0.png')`
 
   Plot percent return over time on test set while trading according to model, save to `figures/`
   
   Parameters
   - model : keras model (required)
   - initial_cash : float for initial cash willing to invest in this stock's model (default: 10000)
-  - stocks_per_trade : int for number of stocks to trade per buy/sell decision (default: 5)
+  - per_trade_value : float for approximate constant value of each trade (default: 500)
   - return_threshold : float for predicted return threshold after `days_topredict` to decide buy/sell (default: 0.5)
   - days_topredict : int for number of days to predict forward when calculated projected return (default: 30)
   - filename : output file name (default: 'portfolio0.png')
