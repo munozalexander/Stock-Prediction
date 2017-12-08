@@ -114,7 +114,7 @@ class StockModel():
                     verbose=0)
         return history
 
-    def train(self, lstm_dim1=128, lstm_dim2=128, dropout=0.2, dense_dim1=None, epochs=300):
+    def train(self, lstm_dim1=128, lstm_dim2=128, dropout=0.2, dense_dim1=None, epochs=200):
         ''' build and train model '''
         t0 = time.time()
         print "\n\n...beginning training"
@@ -170,7 +170,7 @@ class StockModel():
             a.axvline(segment*days_topredict+days_topredict, c='k', linestyle='dashed', linewidth=1)
         a.set_xlabel('Day')
         a.set_ylabel('Price')
-        a.set_title('%s Test Set 30 Day Lookahead' % self.ticker)
+        a.set_title('%s Test Set %i Day Lookahead' % (self.ticker, days_topredict))
         plt.savefig('figures/'+self.ticker+'_'+filename)
         print "Future Curves successfully plotted and saved."
 
@@ -205,7 +205,7 @@ class StockModel():
         print "Data walk complete."
         return buy_dates, sell_dates
 
-    def plotBuySellPoints(self, model, return_threshold=0.5, days_topredict=30, filename='buysell0.png'):
+    def plotBuySellPoints(self, model, return_threshold=0.1, days_topredict=30, filename='buysell0.png'):
         ''' plot points to buy or sell stock '''
         print "\n\n...plotting buy-sell point graph"
         buy_dates, sell_dates = self.__walkBuySell(days_topredict, model, return_threshold)
@@ -222,7 +222,7 @@ class StockModel():
         print "Buy-sell decision points successfully plotted and saved."
 
     def plotPortfolioReturn(self, model, initial_cash=10000, per_trade_value=500,\
-                            return_threshold=0.5, days_topredict=30, filename='portfolio0.png'):
+                            return_threshold=0.1, days_topredict=30, filename='portfolio0.png'):
         ''' walk the test set buying and selling, plot portfolio value over time '''
         print "\n\n...plotting portfolio return over time"
         buy_dates, sell_dates = self.__walkBuySell(days_topredict, model, return_threshold)
@@ -230,7 +230,7 @@ class StockModel():
         stocks_per_trade = max([int(round(per_trade_value/self.y_test[0])), 1])
         portfolio =  0
         returns = [0]
-        for date in range(max(buy_dates+sell_dates)+1):
+        for date in range(len(self.y_test)):
             if date in buy_dates: #buy
                 portfolio += stocks_per_trade
                 cash = cash - stocks_per_trade*inv_price_transform(self.y_test[date], self.scaler)
