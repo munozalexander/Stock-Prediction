@@ -40,3 +40,13 @@ def inv_price_transform(normalized_data, scaler):
     m = scaler.mean_[0]
     s = scaler.scale_[0]
     return s*np.array(normalized_data)+m
+
+def plotHyperparameterTuning(x, y, param_name):
+    ''' plot a hyperparameter tuning curve '''
+    f,a = simple_ax(figsize=(10,6))
+    a.plot(x,y)
+    a.set_xlabel(param_name)
+    a.set_ylabel('RMSE')
+    a.set_title('RMSE vs %s on Validation Set' % param_name)
+    plt.savefig('hyperparameters/curves/%s.png' % param_name)
+    print "%s tuning complete and curve saved to /hyperparameters/curves/\n\n" % param_name

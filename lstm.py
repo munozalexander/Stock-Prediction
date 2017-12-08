@@ -110,8 +110,8 @@ class StockModel():
                     self.y_train, \
                     batch_size=512,
                     epochs=epochs,
-                    validation_split=0.05,
-                    verbose=2)
+                    validation_split=0,
+                    verbose=0)
         return history
 
     def train(self, lstm_dim1=128, lstm_dim2=128, dropout=0.2, dense_dim1=None, epochs=200):
@@ -174,7 +174,7 @@ class StockModel():
         plt.savefig('figures/'+filename)
         print "Future Curves successfully plotted and saved."
 
-    def __decideBuySell(self, startpoint, days_topredict, model, return_threshold):
+    def _decideBuySell(self, startpoint, days_topredict, model, return_threshold):
         '''
         predict future prices and return a market decision
         - returns True: "buy long"
@@ -195,7 +195,7 @@ class StockModel():
         ''' walk data making buy/sell decisions '''
         buy_dates, sell_dates = [], []
         for t in range(len(self.y_test)):
-            decision = self.__decideBuySell(t, days_topredict, model, return_threshold)
+            decision = self._decideBuySell(t, days_topredict, model, return_threshold)
             if decision is True:
                 buy_dates.append(t)
             elif decision is False:
