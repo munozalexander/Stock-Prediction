@@ -221,12 +221,13 @@ class StockModel():
         plt.savefig('figures/'+self.ticker+'_'+filename)
         print "Buy-sell decision points successfully plotted and saved."
 
-    def plotPortfolioReturn(self, model, initial_cash=10000, stocks_per_trade=5,\
+    def plotPortfolioReturn(self, model, initial_cash=10000, per_trade_value=500,\
                             return_threshold=0.5, days_topredict=30, filename='portfolio0.png'):
         ''' walk the test set buying and selling, plot portfolio value over time '''
         print "\n\n...plotting portfolio return over time"
         buy_dates, sell_dates = self.__walkBuySell(days_topredict, model, return_threshold)
         cash = initial_cash
+        stocks_per_trade = max([int(round(per_trade_value/self.y_test[0])), 1])
         portfolio =  0
         returns = [0]
         for date in range(max(buy_dates+sell_dates)+1):

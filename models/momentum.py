@@ -20,8 +20,7 @@ class MomentumAgent(StockModel):
             return None
 
 if __name__ == '__main__':
-    #tickers = ['AAPL', 'AMZN', 'FB', 'GOOG', 'TSLA']
-    tickers = ['TSLA']
+    tickers = ['AAPL', 'AMZN', 'FB', 'GOOG', 'TSLA']
     for ticker in tickers:
         aapl_momentum = MomentumAgent(ticker)
         aapl_momentum.loadStock()
