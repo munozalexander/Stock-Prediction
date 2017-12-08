@@ -205,7 +205,7 @@ class StockModel():
         print "Data walk complete."
         return buy_dates, sell_dates
 
-    def plotBuySellPoints(self, model, return_threshold=0.01, days_topredict=30, filename='buysell0.png'):
+    def plotBuySellPoints(self, model, return_threshold=0.5, days_topredict=30, filename='buysell0.png'):
         ''' plot points to buy or sell stock '''
         print "\n\n...plotting buy-sell point graph"
         buy_dates, sell_dates = self.__walkBuySell(days_topredict, model, return_threshold)
@@ -222,7 +222,7 @@ class StockModel():
         print "Buy-sell decision points successfully plotted and saved."
 
     def plotPortfolioReturn(self, model, initial_cash=10000, per_trade_value=500,\
-                            return_threshold=0.01, days_topredict=30, filename='portfolio0.png'):
+                            return_threshold=0.5, days_topredict=30, filename='portfolio0.png'):
         ''' walk the test set buying and selling, plot portfolio value over time '''
         print "\n\n...plotting portfolio return over time"
         buy_dates, sell_dates = self.__walkBuySell(days_topredict, model, return_threshold)
