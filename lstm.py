@@ -59,7 +59,7 @@ class StockModel():
               (self.ticker, return_df.shape[0], return_df.shape[1])
         return return_df
 
-    def loadStock(self, lookback=25, validation_split=True):
+    def loadStock(self, lookback=7, validation_split=True):
         ''' load and scale data, split into training/validation/test sets '''
         print "\n\n...loading %s stock" % self.ticker
         df = self.__loadData()
@@ -114,7 +114,7 @@ class StockModel():
                     verbose=0)
         return history
 
-    def train(self, lstm_dim1=128, lstm_dim2=128, dropout=0.2, dense_dim1=None, epochs=200):
+    def train(self, lstm_dim1=512, lstm_dim2=256, dropout=0.3, dense_dim1=16, epochs=200):
         ''' build and train model '''
         t0 = time.time()
         print "\n\n...beginning training"
