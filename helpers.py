@@ -34,6 +34,8 @@ def latest_date_before(query_date, date_list):
                 print '\nQUERY DATE ERROR WITH:', query_date, '\n'
                 raise Exception('No values before query date in list')
             return date_list[i-1].date()
+    print '\nQUERY DATE ERROR WITH:', query_date, '\n'
+    raise Exception('No values after query date in list; this could densensitize model')
 
 def inv_price_transform(normalized_data, scaler):
     ''' inverse from normalized price to raw price '''

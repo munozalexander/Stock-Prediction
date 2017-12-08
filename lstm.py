@@ -59,7 +59,7 @@ class StockModel():
               (self.ticker, return_df.shape[0], return_df.shape[1])
         return return_df
 
-    def loadStock(self, lookback=7, validation_split=True):
+    def loadStock(self, lookback=25, validation_split=True):
         ''' load and scale data, split into training/validation/test sets '''
         print "\n\n...loading %s stock" % self.ticker
         df = self.__loadData()
@@ -68,7 +68,7 @@ class StockModel():
             n_train = list(df.index).index(latest_date_before(df.index[-1]+timedelta(-500), pd.to_datetime(df.index)))
             n_valid = list(df.index).index(latest_date_before(df.index[-1]+timedelta(-365), pd.to_datetime(df.index)))
         else:
-            n_train = list(df.index).index(latest_date_before(df.index[-1]+timedelta(-365), df.index))
+            n_train = list(df.index).index(latest_date_before(df.index[-1]+timedelta(-365), pd.to_datetime(df.index)))
         self.scaler = preprocessing.StandardScaler() #normalize mean-zero, unit-variance
         self.scaler.fit(data[:n_train,:])
         data = self.scaler.transform(data)
@@ -114,7 +114,7 @@ class StockModel():
                     verbose=0)
         return history
 
-    def train(self, lstm_dim1=512, lstm_dim2=256, dropout=0.3, dense_dim1=16, epochs=200):
+    def train(self, lstm_dim1=128, lstm_dim2=128, dropout=0.2, dense_dim1=None, epochs=300):
         ''' build and train model '''
         t0 = time.time()
         print "\n\n...beginning training"
@@ -154,7 +154,7 @@ class StockModel():
         a.set_xlabel('Day')
         a.set_title('%s Test Set Predictions'%self.ticker)
         plt.legend()
-        plt.savefig('figures/'+filename)
+        plt.savefig('figures/'+self.ticker+'_'+filename)
         print "One-day lookahead curve successfully plotted and saved."
 
     def plotFutureCurves(self, model, days_topredict=30, filename='futurecurves0.png'):
@@ -171,7 +171,7 @@ class StockModel():
         a.set_xlabel('Day')
         a.set_ylabel('Price')
         a.set_title('%s Test Set 30 Day Lookahead' % self.ticker)
-        plt.savefig('figures/'+filename)
+        plt.savefig('figures/'+self.ticker+'_'+filename)
         print "Future Curves successfully plotted and saved."
 
     def _decideBuySell(self, startpoint, days_topredict, model, return_threshold):
@@ -218,7 +218,7 @@ class StockModel():
         a.set_title('Buy/Sell Decisions for %s Test Set' % self.ticker)
         recs = [mpatches.Rectangle((0,0),1,1,fc='g'), mpatches.Rectangle((0,0),1,1,fc='r')]
         a.legend(recs,['buy', 'sell'], loc=2, prop={'size':14})
-        plt.savefig('figures/'+filename)
+        plt.savefig('figures/'+self.ticker+'_'+filename)
         print "Buy-sell decision points successfully plotted and saved."
 
     def plotPortfolioReturn(self, model, initial_cash=10000, stocks_per_trade=5,\
@@ -244,5 +244,5 @@ class StockModel():
         a.set_xlabel('Day')
         a.set_ylabel('Portfolio Percent Return')
         a.set_title('Portfolio Value Over Time Trading %s on Test Set' % self.ticker)
-        plt.savefig('figures/'+filename)
+        plt.savefig('figures/'+self.ticker+'_'+filename)
         print "Portfolio return graph successfully plotted and saved."
