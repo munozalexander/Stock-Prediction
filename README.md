@@ -29,7 +29,7 @@ rmse = aapl_model.validate(model)
 * `hyperparameters/` : directory containing `hyperparameters/tuning.py` file to loop through hyperparameters and measure validation set rmse; hyperparameters/curves/ directory with hyperparameter optimization curves produced from `hyperparameters/tuning.py`
 * `models/` : directory containing saved keras model outputs as well as a momentum investing agent model comparison (inherits from the `StockModel()` class from `lstm.py`), which buys if the stock price went up that day and sells otherwise
 * `scrape/` : jupyter notebooks and csv output from reddit and reuters headline scraping
-* `helpers.py : some python helper functions, including plotting and date manipulation
+* `helpers.py` : some python helper functions, including plotting and date manipulation
 * `lstm.py` : defines the `StockModel()` class, including training and testing methods (see below for full description of methods and attributes)
 * `main.py` : python file to loop through stock tickers, train `StockModel()` classes from `lstm.py` and save figures
 
