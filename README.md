@@ -31,7 +31,7 @@ rmse = aapl_model.validate(model)
 * `scrape/` : jupyter notebooks and csv output from reddit and reuters headline scraping
 * `helpers.py` : some python helper functions, including plotting and date manipulation
 * `lstm.py` : defines the `StockModel()` class, including training and testing methods (see below for full description of methods and attributes)
-* `main.py` : python file to loop through stock tickers, train `StockModel()` classes from `lstm.py` and save figures
+* `main.py` : python file to loop through stock tickers, train `StockModel()` classes from `lstm.py`, and save figures
 
 
 ## StockModel() Methods
