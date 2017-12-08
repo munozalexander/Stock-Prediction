@@ -11,8 +11,10 @@ We pass the features to an LSTM RNN to train future stock price prediction. Foll
 Our model `StockModel()` is a class in `lstm.py`. We have two demos of the model's predictions on the Apple stock (AAPL) in the `demos/` directory. The Jupyter notebook is a standalone working demo of the model on AAPL, with outputs preprinted in-line for easy viewing. The same outputs can also be produced by running `python PredictionDemo_AAPL.py`.
 
 ## Results on AAPL Test Set
+Our LSTM RNN model learns to "buy-low sell-high":
 ![lstm buy/sell graph](figures/lstm/AAPL_buysell.png "Buy/Sell Decisions for AAPL Test Set")
 
+Our LSTM RNN model achieves significant return on investment in our test set (2016 calendar year):
 ![lstm return graph](figures/lstm/AAPL_portfolio.png "AAPL LSTM Portfolio Value")
 
 ## Setup and Run
